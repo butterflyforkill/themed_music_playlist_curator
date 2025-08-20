@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #f5e1fd, #ffb6c1);
+    color: #333;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #6a1b9a;
+    font-size: 2.5em;
+}
+
+.container {
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+select,
+button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #6a1b9a;
+}
+
+button {
+    background: #d81b60;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #b0004f;
+}
+
+.playlist {
+    margin: 20px auto;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+canvas {
+    margin-top: 20px;
+    border: 1px solid #6a1b9a;
+}
