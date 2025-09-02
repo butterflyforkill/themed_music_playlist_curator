@@ -93,14 +93,9 @@ function App() {
     if (!customThoughts.trim()) return;
 
     const doc = nlp(customThoughts);
-    const verbs = doc.verbs().out("array");
     const nouns = doc.nouns().out("array");
     const adjectives = doc.adjectives().out("array");
 
-    const shouldReplace = verbs.some((v) =>
-      ["replace", "change", "overwrite"].includes(v.toLowerCase()),
-    );
-    const hasAdd = verbs.some((v) => v.toLowerCase() === "add");
     const char1 = `the ${archetype1}`;
     const char2 = `the ${archetype2}`;
     let newSection = "";
@@ -119,101 +114,66 @@ function App() {
           n.toLowerCase().includes("kiss") ||
           n.toLowerCase().includes("romance"),
       );
+    const hasBetrayal = nouns.some(
+      (n) =>
+        n.toLowerCase().includes("betray") ||
+        n.toLowerCase().includes("treason"),
+    );
 
-    // Generate new content based on target section and parsed input
+    // Always replace the section with new content inspired by user thoughts
     if (targetSection === "introduction") {
       if (hasBeach || hasDate) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `On a serene beach in ${setting}, ${char1} and ${char2} shared a quiet moment that sparked their connection.`
-            : ` Their beachside encounter deepened their initial spark.`;
+        newSection = `On a serene beach in ${setting}, ${char1} and ${char2} shared a quiet moment that sparked their connection.`;
       } else if (hasArgue) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `In the heart of ${setting}, a fiery argument between ${char1} and ${char2} set the stage for their story.`
-            : ` A sudden argument in ${setting} added tension to their meeting.`;
+        newSection = `In the heart of ${setting}, a fiery argument between ${char1} and ${char2} set the stage for their story.`;
       } else if (hasRomantic) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `In a romantic corner of ${setting}, ${char1} and ${char2} found themselves drawn together unexpectedly.`
-            : ` A romantic moment in ${setting} brought them closer.`;
+        newSection = `In a romantic corner of ${setting}, ${char1} and ${char2} found themselves drawn together unexpectedly.`;
+      } else if (hasBetrayal) {
+        newSection = `In the shadows of ${setting}, ${char1} uncovered a painful betrayal by ${char2}, igniting their complex bond.`;
       } else {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `In a fleeting moment in ${setting}, ${char1} and ${char2} crossed paths, igniting a spark of ${trope}.`
-            : ` A subtle connection in ${setting} began to form between them.`;
+        newSection = `In a fleeting moment in ${setting}, ${char1} and ${char2} crossed paths, igniting a spark of ${trope}.`;
       }
     } else if (targetSection === "conflict") {
       if (hasBeach || hasDate) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `A romantic outing in ${setting} led to unexpected tension between ${char1} and ${char2}, testing their bond.`
-            : ` Their date in ${setting} stirred unexpected friction.`;
+        newSection = `A romantic outing in ${setting} led to unexpected tension between ${char1} and ${char2}, testing their bond.`;
       } else if (hasArgue) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `A fierce dispute in ${setting} pushed ${char1} and ${char2} to confront their deepest insecurities.`
-            : ` Another argument in ${setting} heightened their conflict.`;
+        newSection = `A fierce dispute in ${setting} pushed ${char1} and ${char2} to confront their deepest insecurities.`;
       } else if (hasRomantic) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `A moment of closeness in ${setting} stirred conflicting emotions for ${char1} and ${char2}.`
-            : ` A near-kiss in ${setting} complicated their emotions.`;
+        newSection = `A moment of closeness in ${setting} stirred conflicting emotions for ${char1} and ${char2}.`;
+      } else if (hasBetrayal) {
+        newSection = `A shocking betrayal in ${setting} shattered the trust between ${char1} and ${char2}, deepening their conflict.`;
       } else {
-        newSection =
-          shouldReplace || !hasAdd
-            ? getRandom(database.conflicts).replace("{trope}", trope)
-            : ` A new challenge in their ${trope} dynamic emerged.`;
+        newSection = getRandom(database.conflicts).replace("{trope}", trope);
       }
     } else if (targetSection === "climax") {
       if (hasBeach || hasDate) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `On a moonlit beach in ${setting}, ${char1} and ${char2} surrendered to their feelings, sealing their bond.`
-            : ` A beachside confession intensified their connection.`;
+        newSection = `On a moonlit beach in ${setting}, ${char1} and ${char2} surrendered to their feelings, sealing their bond.`;
       } else if (hasArgue) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `After a heated clash in ${setting}, ${char1} and ${char2} reconciled with a passionate embrace.`
-            : ` A resolution to their fight in ${setting} brought them closer.`;
+        newSection = `After a heated clash in ${setting}, ${char1} and ${char2} reconciled with a passionate embrace.`;
       } else if (hasRomantic) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `In a tender moment in ${setting}, ${char1} and ${char2} shared a kiss that changed everything.`
-            : ` A kiss in ${setting} marked a turning point.`;
+        newSection = `In a tender moment in ${setting}, ${char1} and ${char2} shared a kiss that changed everything.`;
+      } else if (hasBetrayal) {
+        newSection = `In the wake of betrayal in ${setting}, ${char1} and ${char2} found redemption through a heartfelt confession.`;
       } else {
-        newSection =
-          shouldReplace || !hasAdd
-            ? getRandom(database.climaxes).replace("{trope}", trope)
-            : ` Their bond deepened through a pivotal moment.`;
+        newSection = getRandom(database.climaxes).replace("{trope}", trope);
       }
     } else if (targetSection === "ending") {
       if (hasBeach || hasDate) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `On the shores of ${setting}, ${char1} and ${char2} vowed to cherish their love forever.`
-            : ` A final beachside moment sealed their commitment.`;
+        newSection = `On the shores of ${setting}, ${char1} and ${char2} vowed to cherish their love forever.`;
       } else if (hasArgue) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `Having overcome their conflicts in ${setting}, ${char1} and ${char2} embraced a future together.`
-            : ` Their resolved conflicts paved the way for a hopeful future.`;
+        newSection = `Having overcome their conflicts in ${setting}, ${char1} and ${char2} embraced a future together.`;
       } else if (hasRomantic) {
-        newSection =
-          shouldReplace || !hasAdd
-            ? `In the heart of ${setting}, ${char1} and ${char2} sealed their love with a promise to never part.`
-            : ` A final romantic gesture ensured their love endured.`;
+        newSection = `In the heart of ${setting}, ${char1} and ${char2} sealed their love with a promise to never part.`;
+      } else if (hasBetrayal) {
+        newSection = `Having healed from betrayal in ${setting}, ${char1} and ${char2} forged a stronger bond for their future.`;
       } else {
-        newSection =
-          shouldReplace || !hasAdd
-            ? getRandom(database.endings)
-                .replace("{setting}", setting)
-                .replace("{trope}", trope)
-            : ` Their journey in ${setting} concluded with newfound unity.`;
+        newSection = getRandom(database.endings)
+          .replace("{setting}", setting)
+          .replace("{trope}", trope);
       }
     }
 
-    // Parse the tweaked story and update the target section
+    // Parse the tweaked story and replace the target section
     let sections = tweakedStory.split("\n\n").filter((s) => s.trim());
     let newTweakedStory = "";
     const char1Name = `the ${archetype1}`;
@@ -226,37 +186,13 @@ function App() {
       .replace("{char2}", char2Name);
 
     if (targetSection === "introduction") {
-      const currentIntro = sections[1].startsWith("**Introduction:**")
-        ? sections[1].replace("**Introduction:** ", "")
-        : sections[1] || "";
-      const updatedIntro = shouldReplace
-        ? newSection
-        : `${currentIntro} ${newSection}`;
-      newTweakedStory = `${sections[0] || ""}\n\n**Introduction:** ${updatedIntro}\n\n${dialogue1}\n\n${sections.slice(2).join("\n\n")}`;
+      newTweakedStory = `${sections[0] || ""}\n\n**Introduction:** ${newSection}\n\n${dialogue1}\n\n${sections.slice(2).join("\n\n")}`;
     } else if (targetSection === "conflict") {
-      const currentConflict = sections[3].startsWith("**Conflict:**")
-        ? sections[3].replace("**Conflict:** ", "")
-        : sections[3] || "";
-      const updatedConflict = shouldReplace
-        ? newSection
-        : `${currentConflict} ${newSection}`;
-      newTweakedStory = `${sections.slice(0, 3).join("\n\n")}\n\n**Conflict:** ${updatedConflict}\n\n${dialogue2}\n\n${sections.slice(4).join("\n\n")}`;
+      newTweakedStory = `${sections.slice(0, 3).join("\n\n")}\n\n**Conflict:** ${newSection}\n\n${dialogue2}\n\n${sections.slice(4).join("\n\n")}`;
     } else if (targetSection === "climax") {
-      const currentClimax = sections[5].startsWith("**Climax:**")
-        ? sections[5].replace("**Climax:** ", "")
-        : sections[5] || "";
-      const updatedClimax = shouldReplace
-        ? newSection
-        : `${currentClimax} ${newSection}`;
-      newTweakedStory = `${sections.slice(0, 5).join("\n\n")}\n\n**Climax:** ${updatedClimax}\n\n${sections.slice(6).join("\n\n")}`;
+      newTweakedStory = `${sections.slice(0, 5).join("\n\n")}\n\n**Climax:** ${newSection}\n\n${sections.slice(6).join("\n\n")}`;
     } else if (targetSection === "ending") {
-      const currentEnding = sections[6].startsWith("**Ending:**")
-        ? sections[6].replace("**Ending:** ", "")
-        : sections[6] || "";
-      const updatedEnding = shouldReplace
-        ? newSection
-        : `${currentEnding} ${newSection}`;
-      newTweakedStory = `${sections.slice(0, 6).join("\n\n")}\n\n**Ending:** ${updatedEnding}`;
+      newTweakedStory = `${sections.slice(0, 6).join("\n\n")}\n\n**Ending:** ${newSection}`;
     }
 
     setTweakedStory(newTweakedStory);
@@ -387,9 +323,9 @@ function App() {
           />
           <h3>Add Your Thoughts/Ideas</h3>
           <p>
-            Enter your thoughts to inspire a custom story section (e.g., 'Add a
-            romantic beach scene' or 'Replace conflict with a betrayal'). Use
-            'replace' or 'change' to overwrite the section.
+            Enter your thoughts to inspire a new story section (e.g., 'Make the
+            conflict about a betrayal' or 'A romantic beach scene'). The section
+            will be replaced with new content based on your input.
           </p>
           <label>Target Section:</label>
           <select
@@ -406,7 +342,7 @@ function App() {
             cols="80"
             value={customThoughts}
             onChange={(e) => setCustomThoughts(e.target.value)}
-            placeholder="E.g., 'Add a romantic beach scene' or 'Replace conflict with a betrayal'"
+            placeholder="E.g., 'Make the conflict about a betrayal' or 'A romantic beach scene'"
           />
           <button onClick={incorporateThoughts}>Incorporate Thoughts</button>
           <button onClick={applyTweaks}>Apply All Tweaks</button>

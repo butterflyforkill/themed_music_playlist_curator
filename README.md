@@ -1,1 +1,1 @@
-# toryv generator
+# story generator
